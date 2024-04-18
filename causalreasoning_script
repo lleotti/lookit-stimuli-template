@@ -1,7 +1,6 @@
 function generateProtocol(child, pastSessions) {
-  
-       // var protocol = {
-    
+   
+    //var protocol = {
     // -------- Start Helper functions ----------------------------------------------
 
     // Use shuffle and pop_random to handle manipulation/random assignment
@@ -106,8 +105,27 @@ function generateProtocol(child, pastSessions) {
 
     // define final trial order
     trials_Shown = trials_in_order_shown(first_block_shown);
-    
-    
+
+    // define frames before trials
+    let frames = {
+        "video-config": {
+            "kind": "exp-video-config",
+            "troubleshootingIntro": "If you're having any trouble getting your webcam set up, please feel free to email us at lleotti@psychology.rutgers.edu and we'd be glad to help you out!"
+        },
+    }
+
+    let frame_sequence = [
+        // “consent_stuff”
+        // “studyOverview”
+
+        "video-config"
+        //"first_block_first_trial-video",
+        // "first_block_first_trial-Q1",
+        // "first_block_first_trial-Q2",
+        // "first_block_first_trial-Q3"
+    ]
+
+
     for (iTrial = 0; iTrial < 8; iTrial++) {
         VIDEO = trials_Shown[iTrial][0];
         AUDIOQ1 = trials_Shown[iTrial][1];
@@ -118,256 +136,252 @@ function generateProtocol(child, pastSessions) {
         CHOICE4 = trials_Shown[iTrial][6];
         AUDIOQ2 = trials_Shown[iTrial][7];
         AUDIOQ3 = trials_Shown[iTrial][8];
-    
-    //trial1 = trials_Shown[0];
-    //trial2 = trials_Shown[1];
-    //trial3 = trials_Shown[2];
-    //trial4 = trials_Shown[3];
-   // trial5 = trials_Shown[4];
-    //trial6 = trials_Shown[5];
-   // trial7 = trials_Shown[6];
-   // trial8 = trials_Shown[7];
 
-    // ---- End counterbalance/variable naming ---
+        //trial1 = trials_Shown[0];
+        //trial2 = trials_Shown[1];
+        //trial3 = trials_Shown[2];
+        //trial4 = trials_Shown[3];
+        // trial5 = trials_Shown[4];
+        //trial6 = trials_Shown[5];
+        // trial7 = trials_Shown[6];
+        // trial8 = trials_Shown[7];
+
+        // ---- End counterbalance/variable naming ---
 
 
-    // --start defining frames –
+        // --start defining frames –
 
-    let frames = {
 
-        "first_block_first_trial-video": {
-            "kind": "exp-lookit-video",
-            "video": {
-                "left": 10,
-                "top": 10,
-                "loop": false,
-                "source": VIDEO
+        let vignetteTrial = {
+
+            "first_block_first_trial-video": {
+                "kind": "exp-lookit-video",
+                "video": {
+                    "left": 10,
+                    "top": 10,
+                    "loop": false,
+                    "source": VIDEO
+                },
+                "backgroundColor": "white",
+                "autoProceed": true,
+                "requiredDuration": 0,
+                "requireAudioCount": 0,
+                "requireVideoCount": 1,
+                "doRecording": true,
+                "allowUserPause": false,
+                "baseDir": "https://raw.githubusercontent.com/lleotti/lookit-stimuli-template/master/",
+                "audioTypes": [
+                    "ogg",
+                    "mp3"
+                ],
+                "videoTypes": [
+                    "webm",
+                    "mp4"
+                ]
             },
-            "backgroundColor": "white",
-            "autoProceed": true,
-            "requiredDuration": 0,
-            "requireAudioCount": 0,
-            "requireVideoCount": 1,
-            "doRecording": true,
-            "allowUserPause": false,
-            "baseDir": "https://raw.githubusercontent.com/lleotti/lookit-stimuli-template/master/",
-            "audioTypes": [
-                "ogg",
-                "mp3"
-            ],
-            "videoTypes": [
-                "webm",
-                "mp4"
-            ]
-        },
 
-        "first_block_first_trial-Q1": {
-            "kind": "exp-lookit-images-audio",
-            "baseDir": "https://raw.githubusercontent.com/lleotti/lookit-stimuli-template/master/",
-            "audio": AUDIOQ1,
-            "audioTypes": [
-                "mp3"
-            ],
-            "images": [{
+            "first_block_first_trial-Q1": {
+                "kind": "exp-lookit-images-audio",
+                "baseDir": "https://raw.githubusercontent.com/lleotti/lookit-stimuli-template/master/",
+                "audio": AUDIOQ1,
+                "audioTypes": [
+                    "mp3"
+                ],
+                "images": [{
 
-                    "src": ENDIMG,
-                    "top": "1",
-                    "left": "15",
-                    "displayDelayMs": 0,
-                    "nonChoiceOption": true
-                },
-                {
-                    "id": "choice1",
-                    "src": CHOICE1,
-                    "top": "70",
-                    "left": "2",
-                    "width": "20",
-                    "height": "30",
-                    "displayDelayMs": 2000
-                },
-                {
-                    "id": "choice2",
-                    "src": CHOICE2,
-                    "top": "70",
-                    "left": "26",
-                    "width": "20",
-                    "height": "30",
-                    "displayDelayMs": 3000
-                },
-                {
-                    "id": "choice3",
-                    "src": CHOICE3,
-                    "top": "70",
-                    "left": "50",
-                    "width": "20",
-                    "height": "30",
-                    "displayDelayMs": 4000
-                },
-                {
-                    "id": "choice4",
-                    "src": CHOICE4,
-                    "top": "70",
-                    "left": "75",
-                    "width": "20",
-                    "height": "30",
-                    "displayDelayMs": 5000
-                }
-            ],
-            "autoProceed": false,
-            "showPreviousButton": false,
-            "doRecording": true,
-            "choiceRequired": true,
-            "canMakeChoiceBeforeAudioFinished": true,
-            "allowUserPause": false
-        },
+                        "src": ENDIMG,
+                        "top": "1",
+                        "left": "15",
+                        "displayDelayMs": 0,
+                        "nonChoiceOption": true
+                    },
+                    {
+                        "id": "choice1",
+                        "src": CHOICE1,
+                        "top": "70",
+                        "left": "2",
+                        "width": "20",
+                        "height": "30",
+                        "displayDelayMs": 2000
+                    },
+                    {
+                        "id": "choice2",
+                        "src": CHOICE2,
+                        "top": "70",
+                        "left": "26",
+                        "width": "20",
+                        "height": "30",
+                        "displayDelayMs": 3000
+                    },
+                    {
+                        "id": "choice3",
+                        "src": CHOICE3,
+                        "top": "70",
+                        "left": "50",
+                        "width": "20",
+                        "height": "30",
+                        "displayDelayMs": 4000
+                    },
+                    {
+                        "id": "choice4",
+                        "src": CHOICE4,
+                        "top": "70",
+                        "left": "75",
+                        "width": "20",
+                        "height": "30",
+                        "displayDelayMs": 5000
+                    }
+                ],
+                "autoProceed": false,
+                "showPreviousButton": false,
+                "doRecording": true,
+                "choiceRequired": true,
+                "canMakeChoiceBeforeAudioFinished": true,
+                "allowUserPause": false
+            },
 
 
-        "first_block_first_trial-Q2": {
-            "kind": "exp-lookit-images-audio",
-            "baseDir": "https://raw.githubusercontent.com/lleotti/lookit-stimuli-template/master/",
-            "audioTypes": ["mp3"],
-            "audio": AUDIOQ2,
-            "images": [{
-                    "src": ENDIMG,
-                    "top": "1",
-                    "left": "15",
-                    "displayDelayMs": 0,
-                    "nonChoiceOption": true
-                },
-                {
-                    "id": "choice1",
-                    "src": CHOICE1,
-                    "top": "70",
-                    "left": "2",
-                    "width": "20",
-                    "height": "30",
-                    "displayDelayMs": 2000
-                },
-                {
-                    "id": "choice2",
-                    "src": CHOICE2,
-                    "top": "70",
-                    "left": "26",
-                    "width": "20",
-                    "height": "30",
-                    "displayDelayMs": 3000
-                },
-                {
-                    "id": "choice3",
-                    "src": CHOICE3,
-                    "top": "70",
-                    "left": "50",
-                    "width": "20",
-                    "height": "30",
-                    "displayDelayMs": 4000
-                },
-                {
-                    "id": "choice4",
-                    "src": CHOICE4,
-                    "top": "70",
-                    "left": "75",
-                    "width": "20",
-                    "height": "30",
-                    "displayDelayMs": 5000
-                }
-            ],
-            "autoProceed": false,
-            "showPreviousButton": false,
-            "doRecording": true,
-            "choiceRequired": true,
-            "canMakeChoiceBeforeAudioFinished": true,
-            "allowUserPause": false
+            "first_block_first_trial-Q2": {
+                "kind": "exp-lookit-images-audio",
+                "baseDir": "https://raw.githubusercontent.com/lleotti/lookit-stimuli-template/master/",
+                "audioTypes": ["mp3"],
+                "audio": AUDIOQ2,
+                "images": [{
+                        "src": ENDIMG,
+                        "top": "1",
+                        "left": "15",
+                        "displayDelayMs": 0,
+                        "nonChoiceOption": true
+                    },
+                    {
+                        "id": "choice1",
+                        "src": CHOICE1,
+                        "top": "70",
+                        "left": "2",
+                        "width": "20",
+                        "height": "30",
+                        "displayDelayMs": 2000
+                    },
+                    {
+                        "id": "choice2",
+                        "src": CHOICE2,
+                        "top": "70",
+                        "left": "26",
+                        "width": "20",
+                        "height": "30",
+                        "displayDelayMs": 3000
+                    },
+                    {
+                        "id": "choice3",
+                        "src": CHOICE3,
+                        "top": "70",
+                        "left": "50",
+                        "width": "20",
+                        "height": "30",
+                        "displayDelayMs": 4000
+                    },
+                    {
+                        "id": "choice4",
+                        "src": CHOICE4,
+                        "top": "70",
+                        "left": "75",
+                        "width": "20",
+                        "height": "30",
+                        "displayDelayMs": 5000
+                    }
+                ],
+                "autoProceed": false,
+                "showPreviousButton": false,
+                "doRecording": true,
+                "choiceRequired": true,
+                "canMakeChoiceBeforeAudioFinished": true,
+                "allowUserPause": false
 
-        },
+            },
 
-        "first_block_first_trial-Q3": {
-            "kind": "exp-lookit-images-audio",
-            "audio": AUDIOQ3,
-            "audioTypes": [
-                "mp3"
-            ],
-            "images": [{
-                    "src": ENDIMG,
-                    "top": "1",
-                    "left": "15",
-                    "displayDelayMs": 0,
-                    "nonChoiceOption": true
-                },
-                {
-                    "id": "choice1",
-                    "src": CHOICE1,
-                    "top": "70",
-                    "left": "2",
-                    "width": "20",
-                    "height": "30",
-                    "displayDelayMs": 2000
-                },
-                {
-                    "id": "choice2",
-                    "src": CHOICE2,
-                    "top": "70",
-                    "left": "26",
-                    "width": "20",
-                    "height": "30",
-                    "displayDelayMs": 3000
-                },
-                {
-                    "id": "choice3",
-                    "src": CHOICE3,
-                    "top": "70",
-                    "left": "50",
-                    "width": "20",
-                    "height": "30",
-                    "displayDelayMs": 4000
-                },
-                {
-                    "id": "choice4",
-                    "src": CHOICE4,
-                    "top": "70",
-                    "left": "75",
-                    "width": "20",
-                    "height": "30",
-                    "displayDelayMs": 5000
-                }
-            ],
-            "autoProceed": false,
-            "showPreviousButton": false,
-            "doRecording": true,
-            "choiceRequired": true,
-            "canMakeChoiceBeforeAudioFinished": true,
-            "allowUserPause": false
-        },
+            "first_block_first_trial-Q3": {
+                "kind": "exp-lookit-images-audio",
+                "audio": AUDIOQ3,
+                "audioTypes": [
+                    "mp3"
+                ],
+                "images": [{
+                        "src": ENDIMG,
+                        "top": "1",
+                        "left": "15",
+                        "displayDelayMs": 0,
+                        "nonChoiceOption": true
+                    },
+                    {
+                        "id": "choice1",
+                        "src": CHOICE1,
+                        "top": "70",
+                        "left": "2",
+                        "width": "20",
+                        "height": "30",
+                        "displayDelayMs": 2000
+                    },
+                    {
+                        "id": "choice2",
+                        "src": CHOICE2,
+                        "top": "70",
+                        "left": "26",
+                        "width": "20",
+                        "height": "30",
+                        "displayDelayMs": 3000
+                    },
+                    {
+                        "id": "choice3",
+                        "src": CHOICE3,
+                        "top": "70",
+                        "left": "50",
+                        "width": "20",
+                        "height": "30",
+                        "displayDelayMs": 4000
+                    },
+                    {
+                        "id": "choice4",
+                        "src": CHOICE4,
+                        "top": "70",
+                        "left": "75",
+                        "width": "20",
+                        "height": "30",
+                        "displayDelayMs": 5000
+                    }
+                ],
+                "autoProceed": false,
+                "showPreviousButton": false,
+                "doRecording": true,
+                "choiceRequired": true,
+                "canMakeChoiceBeforeAudioFinished": true,
+                "allowUserPause": false
+            },
 
-           
- 
+
+
         }
- }
+        frameId = 'choose-trial-' + (iTrial + 1) // remember iTrial is zero-indexed
+        frames[frameId] = vignetteTrial;
+        frame_sequence.push(frameId);
+    }
+
 
     // all the other blocks and questions
 
 
-let frame_sequence = [
-    // “consent_stuff”
-    // “studyOverview”
-
-    //"video-config",
-    "first_block_first_trial-video",
-    "first_block_first_trial-Q1",
-    "first_block_first_trial-Q2",
-    "first_block_first_trial-Q3"
-]
 
 
-// Return the study protocol with the "frames" and "sequence" fields defined above
-return {
-    frames: frames,
-    sequence: frame_sequence
-};
+
+    // Return the study protocol with the "frames" and "sequence" fields defined above
+    return {
+        frames: frames,
+        sequence: frame_sequence
+    };
 
 
 
 
 
 
-//return protocol;
+    //return protocol;
 }
