@@ -1,0 +1,373 @@
+function generateProtocol(child, pastSessions) {
+  
+       // var protocol = {
+    
+    // -------- Start Helper functions ----------------------------------------------
+
+    // Use shuffle and pop_random to handle manipulation/random assignment
+
+    // Returns a new array with elements of the array in random order.
+    // given some array of your possible combinations of treatments/conditions 
+    // see the two arrays “J_T_videos” or “R_R_videos” that contain the two possible orders
+
+    // 
+    // Returns a random element of an array, and removes that element from the array
+    // 
+    function pop_random(array) {
+        if (array.length) {
+            let randIndex = Math.floor(Math.random() * array.length);
+            return array.splice(randIndex, 1)[0];
+        }
+        return null;
+    }
+
+    // return the final order of trials being looked at
+    // need to confirm if the things in an array are called elements; otherwise please correct
+
+    function trials_in_order_shown(element) {
+
+        // check if A is first
+        if (element == "block_A") {
+            final_trial_order = [trial1_BlockA, trial2_BlockA, trial3_BlockA, trial4_BlockA, trial5_BlockA, trial1_BlockB, trial2_BlockB, trial3_BlockB];
+
+        } else if (element == "block_B") {
+            final_trial_order = [trial1_BlockB, trial2_BlockB, trial3_BlockB, trial1_BlockA, trial2_BlockA, trial3_BlockA, trial4_BlockA, trial5_BlockA];
+        }
+        return final_trial_order;
+    }
+
+
+    // -------- End Helper functions ----------------------------------------------
+    // -- Start defining all relevant possible variables for counterbalance/randomization
+    // randomly pick one of two blocks to show first, then show the other one
+    // block_A is contagion block and block_B is control block 
+
+    let block_order = [
+        // first possible set of ways to present stimuli blocks
+        ["block_A", "block_B"],
+        // second possible set of ways to present stimuli blocks
+        ["block_B", "block_A"]
+    ];
+
+    // block A stimuli
+    // order is [vignette video, q1audio, vignette end photo, choice1.png, choice2.png, choice3.png, choice4.png, q2audio, q3audio]
+    let durationA_stimuli = ["duration.mp4", "whogotsick.mp3", "duration_end.png", "duration1.png", "duration2.png", "duration3.png", "duration4.png", "whoelsegotsick.mp3", "whogotoffbusfirst.mp3"];
+    let proximityA_stimuli = ["proximity.mp4", "whogotsick.mp3", "proximity_end.png", "proximity1.png", "proximity2.png", "proximity3.png", "proximity4.png", "whoelsegotsick.mp3", "whowasclosestsneeze.mp3"];
+    let transferA_stimuli = ["transfer.mp4", "whogotsick.mp3", "transfer_end.png", "transfer1.png", "transfer2.png", "transfer3.png", "transfer4.png", "whoelsegotsick.mp3", "whogotlasthighfive.mp3"];
+    let entryA_stimuli = ["germsenterbody.mp4", "whogotsick.mp3", "germsenterbody_end.png", "germsenter1.png", "germsenter2.png", "germsenter3.png", "germsenter4.png", "whoelsegotsick.mp3", "germsenter_noplayblocks.mp3"];
+    let incubationA_stimuli = ["incubation.mp4", "whogotsick.mp3", "incubation_end.png", "incubation1.png", "incubation2.png", "incubation3.png", "incubation4.png", "whoelsegotsick.mp3", "germsenter_noplayblocks.mp3"];
+
+    // how to present trials in block A
+    let block_A_trials = [
+        [entryA_stimuli, durationA_stimuli, proximityA_stimuli, transferA_stimuli, incubationA_stimuli],
+        [entryA_stimuli, proximityA_stimuli, durationA_stimuli, transferA_stimuli, incubationA_stimuli],
+        [entryA_stimuli, proximityA_stimuli, transferA_stimuli, durationA_stimuli, incubationA_stimuli],
+        [entryA_stimuli, transferA_stimuli, durationA_stimuli, proximityA_stimuli, incubationA_stimuli],
+        [entryA_stimuli, transferA_stimuli, proximityA_stimuli, durationA_stimuli, incubationA_stimuli],
+        [entryA_stimuli, durationA_stimuli, transferA_stimuli, proximityA_stimuli, incubationA_stimuli],
+    ];
+
+    // block B stimuli
+    //see above for A
+    let durationB_stimuli = ["controldur.mp4", "controlduration_q1.mp3", "controlduration_end.png", "controlduration1.png", "controlduration2.png", "controlduration3.png", "controlduration4.png", "controlduration_q2.mp3", "controlduration_q3.mp3"];
+    let proximityB_stimuli = ["control_proximity.mp4", "controlproximity_q1.mp3", "controlproximity_end.png", "controlproximity1.png", "controlproximity2.png", "controlproximity3.png", "controlproximity4.png", "controlproximity_q2.mp3", "controlproximity_q3.mp3"];
+    let transferB_stimuli = ["controltransfer.mp4", "controltransfer_q1.mp3", "controltransfer_end.png", "controltransfer1.png", "controltransfer2.png", "controltransfer3.png", "controltransfer4.png", "controltransfer_q2.mp3", "whogotlasthighfive.mp3"];
+
+
+    // how to present trials in block B
+    let block_B_trials = [
+        [durationB_stimuli, proximityB_stimuli, transferB_stimuli],
+        [durationB_stimuli, transferB_stimuli, proximityB_stimuli],
+        [transferB_stimuli, proximityB_stimuli, durationB_stimuli],
+        [transferB_stimuli, durationB_stimuli, proximityB_stimuli],
+        [proximityB_stimuli, transferB_stimuli, durationB_stimuli],
+        [proximityB_stimuli, durationB_stimuli, transferB_stimuli],
+    ];
+
+    // decide if A or B is first
+    // pick a random order from above (A or B first)
+    this_block_order = pop_random(block_order);
+    let first_block_shown = this_block_order[0];
+    let second_block_shown = this_block_order[1];
+
+    // do the same thing for within block trial order
+
+    Block_A_order = pop_random(block_A_trials);
+    let trial1_BlockA = Block_A_order[0];
+    let trial2_BlockA = Block_A_order[1];
+    let trial3_BlockA = Block_A_order[2];
+    let trial4_BlockA = Block_A_order[3];
+    let trial5_BlockA = Block_A_order[4];
+
+    Block_B_order = pop_random(block_B_trials);
+    let trial1_BlockB = Block_B_order[0];
+    let trial2_BlockB = Block_B_order[1];
+    let trial3_BlockB = Block_B_order[2];
+
+    // define final trial order
+    trials_Shown = trials_in_order_shown(first_block_shown);
+    
+    
+    for (iTrial = 0; iTrial < 8; iTrial++) {
+        VIDEO = trials_Shown[iTrial][0];
+        AUDIOQ1 = trials_Shown[iTrial][1];
+        ENDIMG = trials_Shown[iTrial][2];
+        CHOICE1 = trials_Shown[iTrial][3];
+        CHOICE2 = trials_Shown[iTrial][4];
+        CHOICE3 = trials_Shown[iTrial][5];
+        CHOICE4 = trials_Shown[iTrial][6];
+        AUDIOQ2 = trials_Shown[iTrial][7];
+        AUDIOQ3 = trials_Shown[iTrial][8];
+    
+    //trial1 = trials_Shown[0];
+    //trial2 = trials_Shown[1];
+    //trial3 = trials_Shown[2];
+    //trial4 = trials_Shown[3];
+   // trial5 = trials_Shown[4];
+    //trial6 = trials_Shown[5];
+   // trial7 = trials_Shown[6];
+   // trial8 = trials_Shown[7];
+
+    // ---- End counterbalance/variable naming ---
+
+
+    // --start defining frames –
+
+    let frames = {
+
+        "first_block_first_trial-video": {
+            "kind": "exp-lookit-video",
+            "video": {
+                "left": 10,
+                "top": 10,
+                "loop": false,
+                "source": VIDEO
+            },
+            "backgroundColor": "white",
+            "autoProceed": true,
+            "requiredDuration": 0,
+            "requireAudioCount": 0,
+            "requireVideoCount": 1,
+            "doRecording": true,
+            "allowUserPause": false,
+            "baseDir": "https://raw.githubusercontent.com/lleotti/lookit-stimuli-template/master/",
+            "audioTypes": [
+                "ogg",
+                "mp3"
+            ],
+            "videoTypes": [
+                "webm",
+                "mp4"
+            ]
+        },
+
+        "first_block_first_trial-Q1": {
+            "kind": "exp-lookit-images-audio",
+            "baseDir": "https://raw.githubusercontent.com/lleotti/lookit-stimuli-template/master/",
+            "audio": AUDIOQ1,
+            "audioTypes": [
+                "mp3"
+            ],
+            "images": [{
+
+                    "src": ENDIMG,
+                    "top": "1",
+                    "left": "15",
+                    "displayDelayMs": 0,
+                    "nonChoiceOption": true
+                },
+                {
+                    "id": "choice1",
+                    "src": CHOICE1,
+                    "top": "70",
+                    "left": "2",
+                    "width": "20",
+                    "height": "30",
+                    "displayDelayMs": 2000
+                },
+                {
+                    "id": "choice2",
+                    "src": CHOICE2,
+                    "top": "70",
+                    "left": "26",
+                    "width": "20",
+                    "height": "30",
+                    "displayDelayMs": 3000
+                },
+                {
+                    "id": "choice3",
+                    "src": CHOICE3,
+                    "top": "70",
+                    "left": "50",
+                    "width": "20",
+                    "height": "30",
+                    "displayDelayMs": 4000
+                },
+                {
+                    "id": "choice4",
+                    "src": CHOICE4,
+                    "top": "70",
+                    "left": "75",
+                    "width": "20",
+                    "height": "30",
+                    "displayDelayMs": 5000
+                }
+            ],
+            "autoProceed": false,
+            "showPreviousButton": false,
+            "doRecording": true,
+            "choiceRequired": true,
+            "canMakeChoiceBeforeAudioFinished": true,
+            "allowUserPause": false
+        },
+
+
+        "first_block_first_trial-Q2": {
+            "kind": "exp-lookit-images-audio",
+            "baseDir": "https://raw.githubusercontent.com/lleotti/lookit-stimuli-template/master/",
+            "audioTypes": ["mp3"],
+            "audio": AUDIOQ2,
+            "images": [{
+                    "src": ENDIMG,
+                    "top": "1",
+                    "left": "15",
+                    "displayDelayMs": 0,
+                    "nonChoiceOption": true
+                },
+                {
+                    "id": "choice1",
+                    "src": CHOICE1,
+                    "top": "70",
+                    "left": "2",
+                    "width": "20",
+                    "height": "30",
+                    "displayDelayMs": 2000
+                },
+                {
+                    "id": "choice2",
+                    "src": CHOICE2,
+                    "top": "70",
+                    "left": "26",
+                    "width": "20",
+                    "height": "30",
+                    "displayDelayMs": 3000
+                },
+                {
+                    "id": "choice3",
+                    "src": CHOICE3,
+                    "top": "70",
+                    "left": "50",
+                    "width": "20",
+                    "height": "30",
+                    "displayDelayMs": 4000
+                },
+                {
+                    "id": "choice4",
+                    "src": CHOICE4,
+                    "top": "70",
+                    "left": "75",
+                    "width": "20",
+                    "height": "30",
+                    "displayDelayMs": 5000
+                }
+            ],
+            "autoProceed": false,
+            "showPreviousButton": false,
+            "doRecording": true,
+            "choiceRequired": true,
+            "canMakeChoiceBeforeAudioFinished": true,
+            "allowUserPause": false
+
+        },
+
+        "first_block_first_trial-Q3": {
+            "kind": "exp-lookit-images-audio",
+            "audio": AUDIOQ3,
+            "audioTypes": [
+                "mp3"
+            ],
+            "images": [{
+                    "src": ENDIMG,
+                    "top": "1",
+                    "left": "15",
+                    "displayDelayMs": 0,
+                    "nonChoiceOption": true
+                },
+                {
+                    "id": "choice1",
+                    "src": CHOICE1,
+                    "top": "70",
+                    "left": "2",
+                    "width": "20",
+                    "height": "30",
+                    "displayDelayMs": 2000
+                },
+                {
+                    "id": "choice2",
+                    "src": CHOICE2,
+                    "top": "70",
+                    "left": "26",
+                    "width": "20",
+                    "height": "30",
+                    "displayDelayMs": 3000
+                },
+                {
+                    "id": "choice3",
+                    "src": CHOICE3,
+                    "top": "70",
+                    "left": "50",
+                    "width": "20",
+                    "height": "30",
+                    "displayDelayMs": 4000
+                },
+                {
+                    "id": "choice4",
+                    "src": CHOICE4,
+                    "top": "70",
+                    "left": "75",
+                    "width": "20",
+                    "height": "30",
+                    "displayDelayMs": 5000
+                }
+            ],
+            "autoProceed": false,
+            "showPreviousButton": false,
+            "doRecording": true,
+            "choiceRequired": true,
+            "canMakeChoiceBeforeAudioFinished": true,
+            "allowUserPause": false
+        },
+
+           
+ 
+        }
+ }
+
+    // all the other blocks and questions
+
+
+let frame_sequence = [
+    // “consent_stuff”
+    // “studyOverview”
+
+    //"video-config",
+    "first_block_first_trial-video",
+    "first_block_first_trial-Q1",
+    "first_block_first_trial-Q2",
+    "first_block_first_trial-Q3"
+]
+
+
+// Return the study protocol with the "frames" and "sequence" fields defined above
+return {
+    frames: frames,
+    sequence: frame_sequence
+};
+
+
+
+
+
+
+//return protocol;
+}
