@@ -1,5 +1,5 @@
 function generateProtocol(child, pastSessions) {
-   
+
     //var protocol = {
     // -------- Start Helper functions ----------------------------------------------
 
@@ -108,6 +108,75 @@ function generateProtocol(child, pastSessions) {
 
     // define frames before trials
     let frames = {
+                "welcome": {
+            "kind": "exp-lookit-text",
+            "blocks": [
+                {
+                    "emph": true,
+                    "title": "Thank you for your interest in our study!",
+                    "text": "Reminder: Your child does not need to be with you until the videos begin."
+                },
+                {
+                    "text": "Here's a quick summary of what's about to happen:",
+                    "listblocks": [
+                        {
+                            "text": "1. Webcam Setup and Video Consent. First, we'll be checking that your webcam is working. Then you and your child will give your consent to participate in this research."
+                        },
+                        {
+                            "text": "2. Study Overview. Here, you will learn a little more about what your child will be doing in this study, along with some other important details about your role in the game."
+                        },
+                        {
+                            "text": "3. When you click the 'Start the game!' button on the Study Overview page, the study will begin! This study will take about 15 minutes in total."
+                        }
+                    ]
+                },
+                {
+                    "text": "Thank you so much for helping us with our science! We hope you and your child have fun."
+                }
+            ],
+            "showPreviousButton": false
+        },
+        "study-instructions": {
+            "kind": "exp-lookit-instructions",
+            "blocks": [
+                {
+                    "title": "Parent's role",
+                    "listblocks": [
+                        {
+                            "text": "Please allow your child to answer at their own pace. Don't give any hints or say whether you agree!"
+                        },
+                        {
+                            "text": "For some questions, your child just has to make a single choice. If your child can click on their own, let them click one of the answer choices, then click the Next button. If they can't click on their own, you can click for them."
+                        },
+                        {
+                            "text": "You can always click 'Replay' to repeat the question for them."
+                        },
+                        {
+                            "text": "Sometimes your child will be asked to provide a verbal response. There are no right or wrong answers to these questions. Please click the Next button when your child is finished responding."
+                        }
+                    ]
+                },
+                {
+                    "title": "Test your audio",
+                    "text": "Please turn the volume up so it's easy to hear but still comfortable.",
+                    "mediaBlock": {
+                        "text": "Make sure you and your child can hear the audio before you begin!",
+                        "isVideo": false,
+                        "sources": [
+                            {
+                                "src": "https://raw.githubusercontent.com/wongmich/productive-pretense-lookit/choose-then-generate/mp3/TestAudio.mp3",
+                                "type": "audio/mp3"
+                            }
+                        ],
+                        "mustPlay": true,
+                        "warningText": "Please try playing the sample audio."
+                    }
+                }
+            ],
+            "showWebcam": false,
+            "nextButtonText": "Next"
+        },
+
         "video-config": {
             "kind": "exp-video-config",
             "troubleshootingIntro": "If you're having any trouble getting your webcam set up, please feel free to email us at lleotti@psychology.rutgers.edu and we'd be glad to help you out!"
@@ -117,7 +186,8 @@ function generateProtocol(child, pastSessions) {
     let frame_sequence = [
         // “consent_stuff”
         // “studyOverview”
-
+"welcome",
+"study-instructions",
         "video-config"
         //"first_block_first_trial-video",
         // "first_block_first_trial-Q1",
@@ -125,6 +195,10 @@ function generateProtocol(child, pastSessions) {
         // "first_block_first_trial-Q3"
     ]
 
+
+
+
+    // all the other blocks and questions
 
     for (iTrial = 0; iTrial < 8; iTrial++) {
         let VIDEO1 = trials_Shown[iTrial][0];
@@ -159,17 +233,17 @@ function generateProtocol(child, pastSessions) {
                 {
                     "id": "vignettevideo",
                     "kind": "exp-lookit-video",
-                    "video": {
+                    "video": [{
                         "left": 10,
                         "top": 10,
                         "loop": false,
                         "source": VIDEO1
-                    },
+                    }],
                     "backgroundColor": "white",
                     "autoProceed": true,
                     "requiredDuration": 0,
                     "requireAudioCount": 0,
-                    "requireVideoCount": 1,
+                    "requireVideoCount": 0,
                     "doRecording": true,
                     "allowUserPause": false,
                     "baseDir": "https://raw.githubusercontent.com/lleotti/lookit-stimuli-template/master/",
@@ -181,6 +255,7 @@ function generateProtocol(child, pastSessions) {
                         "webm",
                         "mp4"
                     ]
+                
                 },
                 {
                     "id": "vignettechoice1",
@@ -370,11 +445,6 @@ function generateProtocol(child, pastSessions) {
         frames[frameId] = vignetteTrial;
         frame_sequence.push(frameId);
     }
-
-
-
-    // all the other blocks and questions
-
 
 
 
