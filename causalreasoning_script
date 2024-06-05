@@ -36,6 +36,16 @@ function generateProtocol(child, pastSessions) {
     }
 
 
+    function shuffleArray(array) {
+        for (var i = array.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
+        return array
+    }
+
     // -------- End Helper functions ----------------------------------------------
     // -- Start defining all relevant possible variables for counterbalance/randomization
     // randomly pick one of two blocks to show first, then show the other one
@@ -50,38 +60,59 @@ function generateProtocol(child, pastSessions) {
 
     // block A stimuli
     // order is [vignette video, q1audio, vignette end photo, choice1.png, choice2.png, choice3.png, choice4.png, q2audio, q3audio]
-    let durationA_stimuli = ["duration.mp4", "whogotsick.mp3", "duration_end.png", "duration1.png", "duration2.png", "duration3.png", "duration4.png", "whoelsegotsick.mp3", "whogotoffbusfirst.mp3"];
-    let proximityA_stimuli = ["proximity.mp4", "whogotsick.mp3", "proximity_end.png", "proximity1.png", "proximity2.png", "proximity3.png", "proximity4.png", "whoelsegotsick.mp3", "whowasclosestsneeze.mp3"];
-    let transferA_stimuli = ["transfer.mp4", "whogotsick.mp3", "transfer_end.png", "transfer1.png", "transfer2.png", "transfer3.png", "transfer4.png", "whoelsegotsick.mp3", "whogotlasthighfive.mp3"];
-    let entryA_stimuli = ["germsenterbody.mp4", "whogotsick.mp3", "germsenterbody_end.png", "germsenter1.png", "germsenter2.png", "germsenter3.png", "germsenter4.png", "whoelsegotsick.mp3", "germsenter_noplayblocks.mp3"];
-    let incubationA_stimuli = ["incubation.mp4", "whogotsick.mp3", "incubation_end.png", "incubation1.png", "incubation2.png", "incubation3.png", "incubation4.png", "whoelsegotsick.mp3", "germsenter_noplayblocks.mp3"];
+
+    let durationA_stimuli = ["duration", "whogotsick", "duration_end.png", "duration1.png", "duration2.png", "duration3.png", "duration4.png", "whoelsegotsick", "whogotoffbusfirst"];
+    let proximityA_stimuli = ["proximity", "whogotsick", "proximity_end.png", "proximity1.png", "proximity2.png", "proximity3.png", "proximity4.png", "whoelsegotsick", "whowasclosestsneeze"];
+    let transferA_stimuli = ["transfer", "whogotsick", "tranfer_end.png", "transfer1.png", "transfer2.png", "transfer3.png", "transfer4.png", "whoelsegotsick", "whogotlasthighfive"];
+    let entryA_stimuli = ["germsenterbody", "whogotsick", "germsenterbody_end.png", "germsenter1.png", "germsenter2.png", "germsenter3.png", "germsenter4.png", "whoelsegotsick", "germsenter_noplayblocks"];
+    let incubationA_stimuli = ["incubation", "incubation_q1", "incubation_end.png", "incubation1.png", "incubation2.png", "incubation3.png", "incubation4.png", "incubation_q2", "incubation_q3"];
 
     // how to present trials in block A
-    let block_A_trials = [
-        [entryA_stimuli, durationA_stimuli, proximityA_stimuli, transferA_stimuli, incubationA_stimuli],
-        [entryA_stimuli, proximityA_stimuli, durationA_stimuli, transferA_stimuli, incubationA_stimuli],
-        [entryA_stimuli, proximityA_stimuli, transferA_stimuli, durationA_stimuli, incubationA_stimuli],
-        [entryA_stimuli, transferA_stimuli, durationA_stimuli, proximityA_stimuli, incubationA_stimuli],
-        [entryA_stimuli, transferA_stimuli, proximityA_stimuli, durationA_stimuli, incubationA_stimuli],
-        [entryA_stimuli, durationA_stimuli, transferA_stimuli, proximityA_stimuli, incubationA_stimuli],
-    ];
+    // let block_A_trials = [
+    // [entryA_stimuli, durationA_stimuli, proximityA_stimuli, transferA_stimuli, incubationA_stimuli],
+    // [entryA_stimuli, proximityA_stimuli, durationA_stimuli, transferA_stimuli, incubationA_stimuli],
+    //  [entryA_stimuli, proximityA_stimuli, transferA_stimuli, durationA_stimuli, incubationA_stimuli],
+    // [entryA_stimuli, transferA_stimuli, durationA_stimuli, proximityA_stimuli, incubationA_stimuli],
+    // [entryA_stimuli, transferA_stimuli, proximityA_stimuli, durationA_stimuli, incubationA_stimuli],
+    // [entryA_stimuli, durationA_stimuli, transferA_stimuli, proximityA_stimuli, incubationA_stimuli],
+    // ];
+
+
+    let block_A_trials = [entryA_stimuli, durationA_stimuli, proximityA_stimuli, transferA_stimuli, incubationA_stimuli];
 
     // block B stimuli
     //see above for A
-    let durationB_stimuli = ["controldur.mp4", "controlduration_q1.mp3", "controlduration_end.png", "controlduration1.png", "controlduration2.png", "controlduration3.png", "controlduration4.png", "controlduration_q2.mp3", "controlduration_q3.mp3"];
-    let proximityB_stimuli = ["control_proximity.mp4", "controlproximity_q1.mp3", "controlproximity_end.png", "controlproximity1.png", "controlproximity2.png", "controlproximity3.png", "controlproximity4.png", "controlproximity_q2.mp3", "controlproximity_q3.mp3"];
-    let transferB_stimuli = ["controltransfer.mp4", "controltransfer_q1.mp3", "controltransfer_end.png", "controltransfer1.png", "controltransfer2.png", "controltransfer3.png", "controltransfer4.png", "controltransfer_q2.mp3", "whogotlasthighfive.mp3"];
+    let durationB_stimuli = ["controldur", "controlduration_q1", "controlduration_end.png", "controlduration1.png", "controlduration2.png", "controlduration3.png", "controlduration4.png", "controlduration_q2", "controlduration_q3"];
+    let proximityB_stimuli = ["control_proximity", "controlproximity_q1", "controlproximity_end.png", "controlproximity1.png", "controlproximity2.png", "controlproximity3.png", "controlproximity4.png", "controlproximity_q2", "controlproximity_q3"];
+    let transferB_stimuli = ["controltransfer", "controltransfer_q1", "controltransfer_end.png", "controltransfer1.png", "controltransfer2.png", "controltransfer3.png", "conroltransfer4.png", "controltransfer_q2", "whogotlasthighfive"];
 
 
+  let nextcaseimage = ["case1.png", "case2.png", "case3.png", "case4.png", "case5.png", "case6.png", "case7.png", "case8.png"];
     // how to present trials in block B
-    let block_B_trials = [
-        [durationB_stimuli, proximityB_stimuli, transferB_stimuli],
-        [durationB_stimuli, transferB_stimuli, proximityB_stimuli],
-        [transferB_stimuli, proximityB_stimuli, durationB_stimuli],
-        [transferB_stimuli, durationB_stimuli, proximityB_stimuli],
-        [proximityB_stimuli, transferB_stimuli, durationB_stimuli],
-        [proximityB_stimuli, durationB_stimuli, transferB_stimuli],
-    ];
+    //let block_B_trials = [
+    //   [durationB_stimuli, proximityB_stimuli, transferB_stimuli],
+    //  [durationB_stimuli, transferB_stimuli, proximityB_stimuli],
+    //  [transferB_stimuli, proximityB_stimuli, durationB_stimuli],
+    //   [transferB_stimuli, durationB_stimuli, proximityB_stimuli],
+    //  [proximityB_stimuli, transferB_stimuli, durationB_stimuli],
+    //  [proximityB_stimuli, durationB_stimuli, transferB_stimuli],
+    // ];
+
+    let block_B_trials = [durationB_stimuli, proximityB_stimuli, transferB_stimuli],
+
+        // shuffles the order of the vignettes within block
+        vignetteOrderA = shuffleArray(block_A_trials);
+    vignetteOrderB = shuffleArray(block_B_trials);
+
+    let trial1_BlockA = vignetteOrderA[0];
+    let trial2_BlockA = vignetteOrderA[1];
+    let trial3_BlockA = vignetteOrderA[2];
+    let trial4_BlockA = vignetteOrderA[3];
+    let trial5_BlockA = vignetteOrderA[4];
+
+    let trial1_BlockB = vignetteOrderB[0];
+    let trial2_BlockB = vignetteOrderB[1];
+    let trial3_BlockB = vignetteOrderB[2];
 
     // decide if A or B is first
     // pick a random order from above (A or B first)
@@ -89,44 +120,53 @@ function generateProtocol(child, pastSessions) {
     let first_block_shown = this_block_order[0];
     let second_block_shown = this_block_order[1];
 
+
     // do the same thing for within block trial order
 
-    Block_A_order = pop_random(block_A_trials);
-    let trial1_BlockA = Block_A_order[0];
-    let trial2_BlockA = Block_A_order[1];
-    let trial3_BlockA = Block_A_order[2];
-    let trial4_BlockA = Block_A_order[3];
-    let trial5_BlockA = Block_A_order[4];
+    //Block_A_order = pop_random(block_A_trials);
+    // let trial1_BlockA = Block_A_order[0];
+    //let trial2_BlockA = Block_A_order[1];
+    //let trial3_BlockA = Block_A_order[2];
+    //let trial4_BlockA = Block_A_order[3];
+    //let trial5_BlockA = Block_A_order[4];
 
-    Block_B_order = pop_random(block_B_trials);
-    let trial1_BlockB = Block_B_order[0];
-    let trial2_BlockB = Block_B_order[1];
-    let trial3_BlockB = Block_B_order[2];
+    //Block_B_order = pop_random(block_B_trials);
+    // let trial1_BlockB = Block_B_order[0];
+    // let trial2_BlockB = Block_B_order[1];
+    //let trial3_BlockB = Block_B_order[2];
 
     // define final trial order
     trials_Shown = trials_in_order_shown(first_block_shown);
 
+
+    let trial1 = trials_Shown[0];
+    let trial2 = trials_Shown[1];
+    let trial3 = trials_Shown[2];
+    let trial4 = trials_Shown[3];
+    let trial5 = trials_Shown[4];
+    let trial6 = trials_Shown[5];
+    let trial7 = trials_Shown[6];
+    let trial8 = trials_Shown[7];
+
     // define frames before trials
     let frames = {
-                "welcome": {
+        "welcome": {
             "kind": "exp-lookit-text",
-            "blocks": [
-                {
+            "blocks": [{
                     "emph": true,
                     "title": "Thank you for your interest in our study!",
-                    "text": "Reminder: Your child does not need to be with you until the videos begin."
+                    "text": "Reminder: Your child does not need to be with you until the study begins."
                 },
                 {
                     "text": "Here's a quick summary of what's about to happen:",
-                    "listblocks": [
-                        {
-                            "text": "1. Webcam Setup and Video Consent. First, we'll be checking that your webcam is working. Then you and your child will give your consent to participate in this research."
+                    "listblocks": [{
+                            "text": "1. Webcam Setup and Video Consent. "
                         },
                         {
-                            "text": "2. Study Overview. Here, you will learn a little more about what your child will be doing in this study, along with some other important details about your role in the game."
+                            "text": "2. Study Overview and Parent Information "
                         },
                         {
-                            "text": "3. When you click the 'Start the game!' button on the Study Overview page, the study will begin! This study will take about 15 minutes in total."
+                            "text": "3. Child Setup to begin the study. This study will take about 15 minutes in total."
                         }
                     ]
                 },
@@ -138,21 +178,16 @@ function generateProtocol(child, pastSessions) {
         },
         "study-instructions": {
             "kind": "exp-lookit-instructions",
-            "blocks": [
-                {
-                    "title": "Parent's role",
-                    "listblocks": [
+            "blocks": [{
+                    "title": "Parent Instructions",
+                    "listblocks": [{
+                            "text": "Your child will hear several animated short stories. If your child is distracted during the animation, you may pause the video by pressing the SPACE bar. When you press the SPACE bar again, the movie will restart."
+                        },
+                        {
+                            "text": "After each animation, your child will answer three questions. If you need to repeat the question asked, press the REPLAY button. For each question, your child should make a single choice by clicking on the screen. If your child can use the mouse on their own, let them click one of the answer choices, then click the Next button. If they can't click on their own, let them point to their answer and you can click for them. "
+                        },
                         {
                             "text": "Please allow your child to answer at their own pace. Don't give any hints or say whether you agree!"
-                        },
-                        {
-                            "text": "For some questions, your child just has to make a single choice. If your child can click on their own, let them click one of the answer choices, then click the Next button. If they can't click on their own, you can click for them."
-                        },
-                        {
-                            "text": "You can always click 'Replay' to repeat the question for them."
-                        },
-                        {
-                            "text": "Sometimes your child will be asked to provide a verbal response. There are no right or wrong answers to these questions. Please click the Next button when your child is finished responding."
                         }
                     ]
                 },
@@ -162,12 +197,10 @@ function generateProtocol(child, pastSessions) {
                     "mediaBlock": {
                         "text": "Make sure you and your child can hear the audio before you begin!",
                         "isVideo": false,
-                        "sources": [
-                            {
-                                "src": "https://raw.githubusercontent.com/wongmich/productive-pretense-lookit/choose-then-generate/mp3/TestAudio.mp3",
-                                "type": "audio/mp3"
-                            }
-                        ],
+                        "sources": [{
+                            "src": "https://raw.githubusercontent.com/lleotti/lookit-stimuli-template/master/mp3/audiotest.mp3",
+                            "type": "audio/mp3"
+                        }],
                         "mustPlay": true,
                         "warningText": "Please try playing the sample audio."
                     }
@@ -181,18 +214,135 @@ function generateProtocol(child, pastSessions) {
             "kind": "exp-video-config",
             "troubleshootingIntro": "If you're having any trouble getting your webcam set up, please feel free to email us at lleotti@psychology.rutgers.edu and we'd be glad to help you out!"
         },
+
+        "video-consent": {
+            "kind": "exp-lookit-video-consent",
+            "template": "consent_005",
+            "PIName": "Vanessa LoBue",
+            "institution": "Rutgers University Newark",
+            "PIContact": "RUN.ChildDevLabs@gmail.com or (973) 353-2702. ",
+            "purpose": "The purpose of the research is to examine how children reason and learn about scientific information.",
+            "procedures": "If you and your child decide to participate in this study, your child will be asked to participate in an online computerized game. In this game, your child will see and hear some animated short stories and be asked to respond to images, sounds, text, or videos.",
+            "risk_statement": "There are minimal risks posed by this study. Your child may experience some minor discomfort or frustration while completing the computer tasks and questions, but we aim to make them as fun and entertaining as possible to minimize this risk. You should feel free to have your child take as many breaks as needed while playing the games. We are collecting personal data and there is a risk that information being collected in the study could pose a breach of confidentiality for parents and participants. We minimize the risk of any breach of confidentiality by identifying the data we collect with a number, not with your name. However, because the data is collected online it may be linked to your IP address. All data is stored securely on the Lookit server and by the researchers on a secure Box folder only accessible to approved study personnel. ",
+            "voluntary_participation": "You may choose to change your mind after consenting for your child’s participation and are free to withdraw from the study at any time. In addition, you and your child can choose to skip any questions that you do not wish to answer. If you do not want your child to enter the study or decide to stop taking part, they may do so without penalty and without loss of benefits to which your child is otherwise entitled. You may also withdraw your consent for the use of data already collected about your child, but you must do this either by selecting the withdraw option at the end of the study or in writing to the PI Dr. Vanessa LoBue at vlobue@psychology.rutgers.edu. ",
+            "payment": "The benefits of taking part in this study may be an increased understanding of several biological concepts. However, it is possible that they may not receive any direct benefit from taking part in this study. Additionally, your child will receive a $5 amazon gift code for participation in this study within 2-3 weeks of participation. Please note, compensation will depend on verification that the child is within the correct age range for the study and the child is visible on screen and the child has not previously participated in this study. The child does not need to finish the entire study to be compensated for participation. ",
+            //"datause": "HELLO",
+            "include_databrary": true,
+            "gdpr": false,
+            "research_rights_statement": "If you have questions, concerns, problems, information or input about the research or would like to know your rights as a research subject, you can contact the Rutgers IRB or the Rutgers Human Subjects Protection Program via phone at (973) 972-3608 or (732) 235-2866 or (732) 235-9806 OR via email irboffice@research.rutgers.edu, or you can write us at 335 George Street, Liberty Plaza Suite 3200, New Brunswick, NJ 08901.",
+            "additional_segments": [{
+                "title": "US Patriot Act Disclosure",
+                "text": "Lookit is a U.S. organization and all information gathered from the website is stored on servers based in the U.S. Therefore, your video recordings are subject to U.S. laws, such as the US Patriot Act. This act allows authorities access to the records of internet service providers. If you choose to participate in this study, you understand that your video recording will be stored and accessed in the USA. The security and privacy policy for Lookit can be found at the following link: <a href='https://lookit.mit.edu/privacy/' target='_blank' rel='noopener'>https://lookit.mit.edu/privacy/</a>."
+            }]
+        },
+
+        "video-quality-checklist": {
+            "kind": "exp-video-config-quality",
+            "title": "It's time to get your child and get in positions!",
+            "introText": "We'll be analyzing what your child chooses and what they say -- but only if we can hear them clearly! Please check each of the following to ensure we're able to use your video:",
+            "requireItemConfirmation": true,
+            "completedItemText": "Did it!",
+            "instructionBlocks": [{
+                    "title": "Center your webcam if needed",
+                    "text": "<strong>Make sure the webcam you're using is roughly centered</strong> relative to this monitor. This makes it much easier for us to see your video.",
+                    "image": {
+                        "src": "https://s3.amazonaws.com/lookitcontents/website/centering.png",
+                        "alt": "Example images of using centered external webcam on monitor or built-in webcam on laptop."
+                    }
+                },
+                {
+                    "title": "Make sure you can clearly see your child's face",
+                    "text": "Take a few moments to get settled and make sure your child's face is clearly visible in the webcam preview to the right. You may need to adjust the webcam angle or turn on a light to make sure their face is visible."
+                },
+                {
+                    "title": "When you're ready",
+                    "text": "The green button down below will start the study. Press the button once you and your child are ready to go!"
+                }
+            ],
+            "requireTestVideo": false,
+            "showRecordMenu": true
+        },
+        
+
+"exit-survey": {
+         "kind": "exp-lookit-exit-survey",
+         "endSessionRecording":true,
+         "debriefing": {
+             "text": "You and your child are helping us to better understand how children develop causal reasoning about contagious illness. This study looks at how children think about causality for things can be observed (such as paint on hands) vs things that are invisible (such as germs). To learn more about how germs are spread and how to stay healthy, please see the following video: <a href='https://www.youtube.com/watch?v=yxonJTWhBJQ ' rel='noopener' target='_blank'>TED-Ed: How do germs spread?</a> \n\nTo thank you for your participation, we'll be emailing you a $5 Amazon.com gift card - this should arrive in your inbox within the next week after we confirm your consent video and check that your child is in the age range for this study. (If you don't hear from us by then, feel free to reach out!) If you participate again with another child in the age range, you'll receive one gift card per child.",
+             "title": "Thank you for participating in our study!"
+         }
+     },
+    
+
+  "thankyou": {
+                "kind": "exp-lookit-video",
+                "baseDir": "https://raw.githubusercontent.com/lleotti/lookit-stimuli-template/master/",
+                "nextButtonEnabled": true,
+                "video": {
+                    "left": 10,
+                    "top": 10,
+                    "loop": false,
+                    "source": "thankyoudetective"
+                },
+                "backgroundColor": "white",
+                "autoProceed": true,
+                "requiredDuration": 0,
+                "requireAudioCount": 0,
+                "requireVideoCount": 1,
+                "doRecording": false,
+                "allowUserPause": false,
+
+                "audioTypes": [
+                    "ogg",
+                    "mp3"
+                ],
+                "videoTypes": [
+                    "webm",
+                    "mp4"
+                ]
+
+            },
+             "childinstructions": {
+                "kind": "exp-lookit-video",
+                "baseDir": "https://raw.githubusercontent.com/lleotti/lookit-stimuli-template/master/",
+                "nextButtonEnabled": true,
+                "video": {
+                    "left": 10,
+                    "top": 10,
+                    "loop": false,
+                    "source": "childinstructions"
+                },
+                "backgroundColor": "white",
+                "autoProceed": true,
+                "requiredDuration": 0,
+                "requireAudioCount": 0,
+                "requireVideoCount": 1,
+                "doRecording": false,
+                "allowUserPause": false,
+                "startSessionRecording": true,
+
+                "audioTypes": [
+                    "ogg",
+                    "mp3"
+                ],
+                "videoTypes": [
+                    "webm",
+                    "mp4"
+                ]
+
+            },
+
     }
 
     let frame_sequence = [
         // “consent_stuff”
         // “studyOverview”
-"welcome",
-"study-instructions",
-        "video-config"
-        //"first_block_first_trial-video",
-        // "first_block_first_trial-Q1",
-        // "first_block_first_trial-Q2",
-        // "first_block_first_trial-Q3"
+        "welcome",
+        "video-config",
+        "video-consent",
+        "study-instructions",
+         "video-quality-checklist",
+         "childinstructions"
     ]
 
 
@@ -210,6 +360,7 @@ function generateProtocol(child, pastSessions) {
         let CHOICE4 = trials_Shown[iTrial][6];
         let AUDIOQ2 = trials_Shown[iTrial][7];
         let AUDIOQ3 = trials_Shown[iTrial][8];
+        let CASEIMG = nextcaseimage[iTrial];
 
         //trial1 = trials_Shown[0];
         //trial2 = trials_Shown[1];
@@ -226,228 +377,278 @@ function generateProtocol(child, pastSessions) {
         // --start defining frames –
 
 
-        let vignetteTrial = {
-            "kind": "group",
-            "frameList": [
 
-                {
-                    "id": "vignettevideo",
-                    "kind": "exp-lookit-video",
-                    "video": [{
-                        "left": 10,
-                        "top": 10,
-                        "loop": false,
-                        "source": VIDEO1
-                    }],
-                    "backgroundColor": "white",
-                    "autoProceed": true,
-                    "requiredDuration": 0,
-                    "requireAudioCount": 0,
-                    "requireVideoCount": 0,
-                    "doRecording": true,
-                    "allowUserPause": false,
-                    "baseDir": "https://raw.githubusercontent.com/lleotti/lookit-stimuli-template/master/",
-                    "audioTypes": [
-                        "ogg",
-                        "mp3"
-                    ],
-                    "videoTypes": [
-                        "webm",
-                        "mp4"
-                    ]
-                
+nextcase = {
+                "kind": "exp-lookit-images-audio",
+                "baseDir": "https://raw.githubusercontent.com/lleotti/lookit-stimuli-template/master/",
+                "audio": "nextcase",
+                "audioTypes": [
+                    "mp3"
+                ],
+                "images": [{
+
+                        "src": CASEIMG,
+                        "top": "20",
+                        "left": "30",
+                        "displayDelayMs": 0,
+                        "nonChoiceOption": true
+                    }
+                ],
+                "autoProceed": true,
+                "showPreviousButton": false,
+                "showReplayButton": false,
+                //"doRecording": false,
+                "choiceRequired": false,
+                "canMakeChoiceBeforeAudioFinished": true,
+                "allowUserPause": false,
+            },
+
+            frameId = 'nextcase-' + (iTrial + 1) // remember iTrial is zero-indexed
+        frames[frameId] = nextcase;
+        frame_sequence.push(frameId);
+
+        vignettevideo = {
+                "kind": "exp-lookit-video",
+                "baseDir": "https://raw.githubusercontent.com/lleotti/lookit-stimuli-template/master/",
+                "nextButtonEnabled": false,
+                "video": {
+                    "left": 7,
+                    "top": 10,
+                    "loop": false,
+                    "source": VIDEO1
                 },
-                {
-                    "id": "vignettechoice1",
-                    "kind": "exp-lookit-images-audio",
-                    "baseDir": "https://raw.githubusercontent.com/lleotti/lookit-stimuli-template/master/",
-                    "audio": AUDIOQ1,
-                    "audioTypes": [
-                        "mp3"
-                    ],
-                    "images": [{
+                "backgroundColor": "white",
+                "autoProceed": true,
+                "requiredDuration": 0,
+                "requireAudioCount": 0,
+                "requireVideoCount": 1,
+                "doRecording": false,
+                "allowUserPause": true,
 
-                            "src": ENDIMG,
-                            "top": "1",
-                            "left": "15",
-                            "displayDelayMs": 0,
-                            "nonChoiceOption": true
-                        },
-                        {
-                            "id": "choice1",
-                            "src": CHOICE1,
-                            "top": "70",
-                            "left": "2",
-                            "width": "20",
-                            "height": "30",
-                            "displayDelayMs": 2000
-                        },
-                        {
-                            "id": "choice2",
-                            "src": CHOICE2,
-                            "top": "70",
-                            "left": "26",
-                            "width": "20",
-                            "height": "30",
-                            "displayDelayMs": 3000
-                        },
-                        {
-                            "id": "choice3",
-                            "src": CHOICE3,
-                            "top": "70",
-                            "left": "50",
-                            "width": "20",
-                            "height": "30",
-                            "displayDelayMs": 4000
-                        },
-                        {
-                            "id": "choice4",
-                            "src": CHOICE4,
-                            "top": "70",
-                            "left": "75",
-                            "width": "20",
-                            "height": "30",
-                            "displayDelayMs": 5000
-                        }
-                    ],
-                    "autoProceed": false,
-                    "showPreviousButton": false,
-                    "doRecording": true,
-                    "choiceRequired": true,
-                    "canMakeChoiceBeforeAudioFinished": true,
-                    "allowUserPause": false
-                },
+                "audioTypes": [
+                    "ogg",
+                    "mp3"
+                ],
+                "videoTypes": [
+                    "webm",
+                    "mp4"
+                ]
 
-                {
-                    "id": "vignettechoice2",
-                    "kind": "exp-lookit-images-audio",
-                    "baseDir": "https://raw.githubusercontent.com/lleotti/lookit-stimuli-template/master/",
-                    "audioTypes": ["mp3"],
-                    "audio": AUDIOQ2,
-                    "images": [{
-                            "src": ENDIMG,
-                            "top": "1",
-                            "left": "15",
-                            "displayDelayMs": 0,
-                            "nonChoiceOption": true
-                        },
-                        {
-                            "id": "choice1",
-                            "src": CHOICE1,
-                            "top": "70",
-                            "left": "2",
-                            "width": "20",
-                            "height": "30",
-                            "displayDelayMs": 2000
-                        },
-                        {
-                            "id": "choice2",
-                            "src": CHOICE2,
-                            "top": "70",
-                            "left": "26",
-                            "width": "20",
-                            "height": "30",
-                            "displayDelayMs": 3000
-                        },
-                        {
-                            "id": "choice3",
-                            "src": CHOICE3,
-                            "top": "70",
-                            "left": "50",
-                            "width": "20",
-                            "height": "30",
-                            "displayDelayMs": 4000
-                        },
-                        {
-                            "id": "choice4",
-                            "src": CHOICE4,
-                            "top": "70",
-                            "left": "75",
-                            "width": "20",
-                            "height": "30",
-                            "displayDelayMs": 5000
-                        }
-                    ],
-                    "autoProceed": false,
-                    "showPreviousButton": false,
-                    "doRecording": true,
-                    "choiceRequired": true,
-                    "canMakeChoiceBeforeAudioFinished": true,
-                    "allowUserPause": false
+            },
 
-                },
-                {
-                    "id": "vignettechoice3",
-                    "kind": "exp-lookit-images-audio",
-                    "baseDir": "https://raw.githubusercontent.com/lleotti/lookit-stimuli-template/master/",
-                    "audio": AUDIOQ3,
-                    "audioTypes": [
-                        "mp3"
-                    ],
-                    "images": [{
-                            "src": ENDIMG,
-                            "top": "1",
-                            "left": "15",
-                            "displayDelayMs": 0,
-                            "nonChoiceOption": true
-                        },
-                        {
-                            "id": "choice1",
-                            "src": CHOICE1,
-                            "top": "70",
-                            "left": "2",
-                            "width": "20",
-                            "height": "30",
-                            "displayDelayMs": 2000
-                        },
-                        {
-                            "id": "choice2",
-                            "src": CHOICE2,
-                            "top": "70",
-                            "left": "26",
-                            "width": "20",
-                            "height": "30",
-                            "displayDelayMs": 3000
-                        },
-                        {
-                            "id": "choice3",
-                            "src": CHOICE3,
-                            "top": "70",
-                            "left": "50",
-                            "width": "20",
-                            "height": "30",
-                            "displayDelayMs": 4000
-                        },
-                        {
-                            "id": "choice4",
-                            "src": CHOICE4,
-                            "top": "70",
-                            "left": "75",
-                            "width": "20",
-                            "height": "30",
-                            "displayDelayMs": 5000
-                        }
-                    ],
-                    "autoProceed": false,
-                    "showPreviousButton": false,
-                    "doRecording": true,
-                    "choiceRequired": true,
-                    "canMakeChoiceBeforeAudioFinished": true,
-                    "allowUserPause": false
-                },
+            frameId = 'vignettevideo-' + (iTrial + 1) // remember iTrial is zero-indexed
+        frames[frameId] = vignettevideo;
+        frame_sequence.push(frameId);
+
+        vignettechoice1 = {
+                "kind": "exp-lookit-images-audio",
+                "baseDir": "https://raw.githubusercontent.com/lleotti/lookit-stimuli-template/master/",
+                "audio": AUDIOQ1,
+                "audioTypes": [
+                    "mp3"
+                ],
+                "images": [{
+
+                        "src": ENDIMG,
+                        "top": "1",
+                        "left": "20",
+                        "displayDelayMs": 0,
+                        "nonChoiceOption": true
+                    },
+                    {
+                        "id": "choice1",
+                        "src": CHOICE1,
+                        "top": "70",
+                        "left": "2",
+                        "width": "20",
+                        "height": "30",
+                        "displayDelayMs": 1000
+                    },
+                    {
+                        "id": "choice2",
+                        "src": CHOICE2,
+                        "top": "70",
+                        "left": "26",
+                        "width": "20",
+                        "height": "30",
+                        "displayDelayMs": 1000
+                    },
+                    {
+                        "id": "choice3",
+                        "src": CHOICE3,
+                        "top": "70",
+                        "left": "50",
+                        "width": "20",
+                        "height": "30",
+                        "displayDelayMs": 1000
+                    },
+                    {
+                        "id": "choice4",
+                        "src": CHOICE4,
+                        "top": "70",
+                        "left": "75",
+                        "width": "20",
+                        "height": "30",
+                        "displayDelayMs": 1000
+                    }
+                ],
+                "autoProceed": false,
+                "showPreviousButton": false,
+                "showReplayButton": true,
+                //"doRecording": false,
+                "choiceRequired": true,
+                "canMakeChoiceBeforeAudioFinished": false,
+                "allowUserPause": false,
+                "parentTextBlock": {
+                    "title": " ",
+                    "text": "CLICK ON YOUR CHOICE",
+                    "top": "10"
+                }
+            },
+
+            frameId = 'vignettechoice1-' + (iTrial + 1) // remember iTrial is zero-indexed
+        frames[frameId] = vignettechoice1;
+        frame_sequence.push(frameId);
+
+        vignettechoice2 = {
+                "kind": "exp-lookit-images-audio",
+                "baseDir": "https://raw.githubusercontent.com/lleotti/lookit-stimuli-template/master/",
+                "audioTypes": ["mp3"],
+                "audio": AUDIOQ2,
+                "images": [{
+                        "src": ENDIMG,
+                        "top": "1",
+                        "left": "20",
+                        "displayDelayMs": 0,
+                        "nonChoiceOption": true
+                    },
+                    {
+                        "id": "choice1",
+                        "src": CHOICE1,
+                        "top": "70",
+                        "left": "2",
+                        "width": "20",
+                        "height": "30",
+                        "displayDelayMs": 1000
+                    },
+                    {
+                        "id": "choice2",
+                        "src": CHOICE2,
+                        "top": "70",
+                        "left": "26",
+                        "width": "20",
+                        "height": "30",
+                        "displayDelayMs": 1000
+                    },
+                    {
+                        "id": "choice3",
+                        "src": CHOICE3,
+                        "top": "70",
+                        "left": "50",
+                        "width": "20",
+                        "height": "30",
+                        "displayDelayMs": 1000
+                    },
+                    {
+                        "id": "choice4",
+                        "src": CHOICE4,
+                        "top": "70",
+                        "left": "75",
+                        "width": "20",
+                        "height": "30",
+                        "displayDelayMs": 1000
+                    }
+                ],
+                "autoProceed": false,
+                "showPreviousButton": false,
+                "showReplayButton": true,
+                //"doRecording": true,
+                "choiceRequired": true,
+                "canMakeChoiceBeforeAudioFinished": false,
+                "allowUserPause": false,
+"parentTextBlock": {
+                    "title": "  ",
+                    "text": "CLICK ON YOUR CHOICE",
+                }
+            },
+
+            frameId = 'vignettechoice2-' + (iTrial + 1) // remember iTrial is zero-indexed
+        frames[frameId] = vignettechoice2;
+        frame_sequence.push(frameId);
+
+        vignettechoice3 = {
+                "kind": "exp-lookit-images-audio",
+                "baseDir": "https://raw.githubusercontent.com/lleotti/lookit-stimuli-template/master/",
+                "audio": AUDIOQ3,
+                "audioTypes": [
+                    "mp3"
+                ],
+                "images": [{
+                        "src": ENDIMG,
+                        "top": "1",
+                        "left": "20",
+                        "displayDelayMs": 0,
+                        "nonChoiceOption": true
+                    },
+                    {
+                        "id": "choice1",
+                        "src": CHOICE1,
+                        "top": "70",
+                        "left": "2",
+                        "width": "20",
+                        "height": "30",
+                        "displayDelayMs": 1000
+                    },
+                    {
+                        "id": "choice2",
+                        "src": CHOICE2,
+                        "top": "70",
+                        "left": "26",
+                        "width": "20",
+                        "height": "30",
+                        "displayDelayMs": 1000
+                    },
+                    {
+                        "id": "choice3",
+                        "src": CHOICE3,
+                        "top": "70",
+                        "left": "50",
+                        "width": "20",
+                        "height": "30",
+                        "displayDelayMs": 1000
+                    },
+                    {
+                        "id": "choice4",
+                        "src": CHOICE4,
+                        "top": "70",
+                        "left": "75",
+                        "width": "20",
+                        "height": "30",
+                        "displayDelayMs": 1000
+                    }
+                ],
+                "autoProceed": false,
+                "showPreviousButton": false,
+                "showReplayButton": true,
+                //"doRecording": true,
+                "choiceRequired": true,
+                "canMakeChoiceBeforeAudioFinished": false,
+                "allowUserPause": false,
+                "parentTextBlock": {
+                    "title": "  ",
+                    "text": "CLICK ON YOUR CHOICE",
+                }
+            },
 
 
 
-
-            ]
-        }
-        frameId = 'vignetteTrial-' + (iTrial + 1) // remember iTrial is zero-indexed
-        frames[frameId] = vignetteTrial;
+            frameId = 'vignettechoice3-' + (iTrial + 1) // remember iTrial is zero-indexed
+        frames[frameId] = vignettechoice3;
         frame_sequence.push(frameId);
     }
 
 
-
+frame_sequence = frame_sequence.concat(['thankyou','exit-survey'])
 
     // Return the study protocol with the "frames" and "sequence" fields defined above
     return {
